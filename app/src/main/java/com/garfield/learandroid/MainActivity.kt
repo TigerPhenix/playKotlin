@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.garfield.learandroid.ui.main.MainFragment
+import kotlinx.coroutines.MainScope
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,6 +28,6 @@ class MainActivity : AppCompatActivity() {
 
 
     fun onClickTestKotlinException() {
-        TestKotlin.testException()
+        TestKotlin.testException(scope = MainScope())
     }
 }
