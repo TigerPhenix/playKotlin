@@ -1,15 +1,14 @@
-package com.garfield.testjava
+package com.garfield.learandroid
 
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 object TestKotlin {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        println("Hello World!")
         testException()
     }
 
@@ -18,14 +17,10 @@ object TestKotlin {
     }
 
     fun testException() {
-        println("testException")
-//
-        runBlocking {
-            println("define job1.")
-
+        GlobalScope.launch() {
             val job1 = launch {
                    println("Throwing exception from launch")
-//                 throw IndexOutOfBoundsException() // 我们将在控制台打印 Thread.defaultUncaughtExceptionHandler
+                 throw IndexOutOfBoundsException() // 我们将在控制台打印 Thread.defaultUncaughtExceptionHandler
             }
             job1.join()
             println("Joined job1.      ")
@@ -35,8 +30,11 @@ object TestKotlin {
                 throw ArithmeticException() // 没有打印任何东西，依赖用户去调用等待
                 println("async job2 end;")
             }
-            deferred.await()
-
+            try{
+                deferred.await()
+            }catch(e: Exception){
+                println("await throw e=${e}")
+            }
 
             println("parent job0 end; ")
         }
