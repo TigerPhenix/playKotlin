@@ -1,0 +1,4 @@
+rootProject.name = "learAndroid"
+include ':app'
+include ':testKotlin'
+include ':testJava'
