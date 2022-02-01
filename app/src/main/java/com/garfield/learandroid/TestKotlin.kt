@@ -23,31 +23,32 @@ object TestKotlin {
                 try {
                     CoroutineScope(coroutineContext).launch {
 //                    scope?.launch {
-                        try {
-                             coroutineScope {
-                                  testExceptionHandle(this)
-                            }
-                        } catch (e: Exception) {
+//                        try {
+                            testExceptionHandle()
+//                        } catch (e: Exception) {
 //                          这里捕捉不到调用的挂起函数抛出的异常
-                            println("deep inner ,catch e=${e}")
-                        }
+//                            println("deep inner ,catch e=${e}")
+//                        }
                       }
                 } catch (e: Exception) {
                     println("Inner testException,catched e=${e}")
                 }
             }
-        } catch (e: Exception) {
+
+            } finally {
+
+//        } catch (e: Exception) {
 //             改为MainScope， app跑起来后，这里虽然能捕捉，但是app 依然崩溃
-            println("Outer testException,catched e=${e}")
+//            println("Outer testException,catched e=${e}")
         }
     }
 }
 
 
-private suspend fun testExceptionHandle(scope: CoroutineScope) {
+private suspend fun testExceptionHandle()= coroutineScope{
     println("Scope launch")
     try {
-        scope.launch {
+        launch {
 //            val superJob = SupervisorJob()
             println("parent start,corountine=$this ,time=${Date()}  ")
 
@@ -98,6 +99,12 @@ private suspend fun testExceptionHandle(scope: CoroutineScope) {
 //                testRunInCatchStep()
 //            } finally {
                 //          看来只要不是被取消了，这里依然可以执行挂起函数
+            }
+
+            println("try to start new corountine 3=${Date()} ")
+//           如果job2抛异常了，那么 启动协程3的函数不会调用，但是父协程里此函数前后的打印方法都执行了
+            launch {
+                println("lauch job3  time=${Date()} ")
             }
             //          delay(1000)
             println("parent job end, time=${Date()} ")
