@@ -1,5 +1,7 @@
 package com.garfield.learandroid
 
+import android.content.Context
+import android.media.AudioManager
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +19,11 @@ class MainActivity : AppCompatActivity() {
                 .commitNow()
         }
         initView()
+    }
+
+    private fun test(){
+        val mAudioManager: AudioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
     }
 
     private fun initView() {
